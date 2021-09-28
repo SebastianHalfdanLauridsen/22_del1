@@ -19,6 +19,11 @@ public class Die {
 
     }
 
+    private static int random(int min, int max) {
+        //returns random int between min and max
+        return (int) ((Math.random() * (max - min)) + min);
+    }
+
     private static void saveRoll(int[][] score) {
 
     }

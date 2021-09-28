@@ -34,6 +34,5 @@ public class Main {
         if (args[2].equals("Y")) {
             testMode = true;
         }
-
     }
 }
