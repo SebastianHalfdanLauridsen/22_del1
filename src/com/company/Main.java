@@ -2,7 +2,7 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import game.Score;
 
 public class Main {
     public static boolean testMode = false;
@@ -16,8 +16,12 @@ public class Main {
     public static final int sumCol = 4;
     public static final int scoreCol = 5;
 
+    public static int playerAmount = -1;
+
     public static void main(String[] args) {
         //maybe replace with scanner
+        playerAmount = Integer.parseInt(args[0]);
+
         System.out.println("amount of player set to: " + args[0]);
         System.out.println("test program enabled: " + args[1]);
         System.out.println("testMode enabled " + args[2]);
@@ -34,5 +38,8 @@ public class Main {
         if (args[2].equals("Y")) {
             testMode = true;
         }
+
+        Score.getArray(Score.scoreList, 0, 5, Main.scoreCol);
+
     }
 }

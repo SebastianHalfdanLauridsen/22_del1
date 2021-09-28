@@ -1,6 +1,6 @@
 package game;
 
-import java.lang.reflect.Array;
+import com.company.Main;
 
 public class Die {
 
@@ -8,15 +8,6 @@ public class Die {
         int roll1 = 0; int roll2 = 0;
 
         return new Pair<>(roll1, roll2);
-    }
-
-    public static int getScore(int[][] score, int playerID, int roll) {
-        int score1 = 0;
-        return score1;
-    }
-
-    private static void setDie(int random) {
-
     }
 
     private static int random(int min, int max) {
