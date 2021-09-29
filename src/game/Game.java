@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Game {
 
-    private int m_diceAmount = 3;
+    private int m_diceAmount = 2;
     private int m_diceSides = 6;
     private static int m_playerAmount = 4;
 
@@ -23,20 +23,52 @@ public class Game {
     }
 
     public static void main(String[] args) {
+        int playerID = 0;
+        int playerSkipID = 0;
+        boolean skip = false;
 
-        for(int i = 0; i < 1000; i++) {
+        for(int currRound = 0; currRound < 1000; currRound++) {
             Round round = new Round(m_playerAmount);
 
             System.out.println("Points:");
-            for(int j = 0; j < m_playerAmount; j++) {
 
 
-                //Sets m_points array to old val + new sum
-
-                m_points.set(j, (m_points.get(j) + round.getM_sum(j)));
-
-                System.out.println("Player " + (j+1) + ": " + m_points.get(j));
+            if(!skip) {
+                System.out.println("ID restart");
+                playerID = 0;
+                playerSkipID = 0;
+            } else {
+                System.out.println("PLAYERID = PLAYERSKIPID");
+                playerID = playerSkipID;
             }
+
+            for(playerID = playerSkipID;playerID < m_playerAmount; playerID++) {
+
+                System.out.println(playerID);
+
+                //reset points for player if pair of 1's
+                if (round.getPair(playerID) == 1) {
+                    m_points.set(playerID, 0);
+                } else {
+                    //Sets m_points array to old val + new sum
+                    m_points.set(playerID, (m_points.get(playerID) + round.getM_sum(playerID)));
+                }
+                System.out.println("Player " + (playerID + 1) + ": " + m_points.get(playerID));
+
+                if (m_points.get(playerID) >= m_winCond) {
+                    System.out.println("WINWINWIN for Player: " + (playerID + 1));
+                    System.exit(0);
+                }
+
+                if(round.isPair(playerID)) {
+                    System.out.println("pære for player: " + playerID );
+                    skip = true;
+                    playerSkipID = playerID;
+                    break;
+                }
+
+            }
+
 
         }
     }
