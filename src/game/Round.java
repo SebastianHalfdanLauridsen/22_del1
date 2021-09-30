@@ -16,7 +16,7 @@ public class Round {
     private static int m_instances = 0;
 
     public Round(int playerAmount) {
-        System.out.println("Round.Round(): Instantiated Round(" + playerAmount + ")");
+        //counts the amount of times the class has been instantiated
         m_instances++;
 
         //throws dies for all players, adds points and determines isWin() and pairOfOnes()
@@ -29,8 +29,6 @@ public class Round {
                 m_points.add(playerID, getM_round(playerID).getM_sum());
             } else {
                 m_points.add(playerID, ( m_game.getM_rounds(m_instances-2).getM_points(playerID) + getM_round(playerID).getM_sum()));
-                System.out.println("Round.Round() m_points.set(playerID, ( m_game.getM_rounds(m_instances-2).getM_points(playerID) + getM_sum(playerID) ))" +
-                        "= " + m_points.get(playerID));
             }
 
             //Runs if playerID won
@@ -50,12 +48,13 @@ public class Round {
     }
         //throws dies for specified playerID
         private void throwDies(int playerID) {
-            System.out.println("Player " + playerID + ", type t to throw...");
+            System.out.println("----------------------------");
+            System.out.println("Player " + (playerID+1) + ", type t to throw...");
             String input = scan.nextLine();
 
             //runs while loop until input is t
             while(!input.equals("t")){
-                System.out.println("You typed " + input + ", please type t");
+                System.out.println("You typed " + input + ", please type t...");
                 input = scan.nextLine();
             }
 
@@ -65,9 +64,7 @@ public class Round {
 
             //prints all throws from player
             for (int i = 0; i < m_game.getM_diceAmount(); i++) { //maybe rename int i
-                System.out.println("Round.throwDice(): Player: " + playerID
-                        + " throw #" + (i + 1)
-                        + " = " + playerThrow.getM_dies(i));
+                System.out.println("Die " + (i+1) + " landed on " + m_round.get(playerID).getM_dies(i) + ".");
             }
 
         }
@@ -83,7 +80,7 @@ public class Round {
 
     public void resetPoints(int playerID) {
         m_points.set(playerID, 0);
-        System.out.println("Player " + playerID + ", lost all their points!");
+        System.out.println("Oh no, you lost all your points!");
     }
 
     public int getM_sum (int playerID){

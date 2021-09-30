@@ -10,7 +10,6 @@ public class PlayerThrow {
 
     //class constructor defines variables/parameters and rolls dice
     public PlayerThrow(int playerID) {
-        System.out.println("PlayerThrow.PlayerThrow(): Instantiated PlayerThrow(" + playerID + ")");
         roll();
     }
 

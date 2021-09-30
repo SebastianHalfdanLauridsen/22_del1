@@ -13,7 +13,7 @@ public class Game {
     private static ArrayList<Round> m_rounds = new ArrayList<>();
 
     public Game() {
-        System.out.println("Game.Game(): instantiated Game");
+        System.out.println("The game has started...");
 
     }
 
@@ -23,13 +23,13 @@ public class Game {
         for (int currRound = 0; currRound < 1000; currRound++) {
 
             System.out.println();
-            System.out.println("Game.main(): Current Round = " + currRound);
+            System.out.println("Round " + (currRound+1) + "!");
 
             Round round = new Round(getM_playerAmount());
             m_rounds.add(round);
-            System.out.println("Game.main(): Points:");
+            System.out.println("Current score:");
             for(int i = 0; i < m_playerAmount; i++) {
-                System.out.println("Game.main(): Player: " + i + ", points = " + round.getM_points(i));
+                System.out.println("Player " + (i+1) + ", " + round.getM_points(i) + " points.");
             }
         }
     }
