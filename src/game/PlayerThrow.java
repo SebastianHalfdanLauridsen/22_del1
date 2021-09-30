@@ -5,22 +5,22 @@ import java.util.ArrayList;
 
 
 public class PlayerThrow {
-    private int m_playerID;
-    private ArrayList<Integer> m_dies = new ArrayList<Integer>();
+    private ArrayList<Integer> m_dies = new ArrayList<>();
     private int m_sum;
 
     //class constructor defines variables/parameters and rolls dice
     public PlayerThrow(int playerID) {
         System.out.println("PlayerThrow.PlayerThrow(): Instantiated PlayerThrow(" + playerID + ")");
-        m_playerID = playerID;
         roll();
     }
 
-    //random function
+    //returns random int between min and max parameters
     private int random(int min, int max) {
         return (int) ((Math.random() * max) + min);
     }
 
+    //rolls a random value to all dies in m_dies
+    //https://www.youtube.com/watch?v=RYnFIRc0k6E
     private void roll() {
         //get die rolls with random and add to ArrayList
         for(int i = 0; i < Game.m_game.getM_diceAmount(); i++) {
@@ -30,11 +30,6 @@ public class PlayerThrow {
         for (int i = 0; i < m_dies.size(); i++) {
             m_sum += m_dies.get(i);
         }
-    }
-
-    //get playerID
-    public int getM_playerID() {
-        return m_playerID;
     }
 
     //get sum of die rolls
@@ -49,13 +44,10 @@ public class PlayerThrow {
 
     //returns true if all dies are equal to the first die.
     public boolean isPair() {
-        for (int i = 1; i < m_dies.size(); i++) {
-
-            if (m_dies.get(0).equals( m_dies.get(i) ) ) {
-                System.out.println("Playerthrow.isPair(): " + m_dies.get(i) + " is a pair");
+        for (int dies = 1; dies < m_dies.size(); dies++) {
+            if (m_dies.get(0).equals( m_dies.get(dies) ) ) {
                 return true;
             }
-            System.out.println("PlayerThrow.isPair(): " + m_dies.get(i-1) + " and " + m_dies.get(i) + " is NOT a pair");
         }
         //System.out.println("pære?");
         return false;
