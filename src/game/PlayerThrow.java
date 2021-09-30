@@ -43,7 +43,7 @@ public class PlayerThrow {
     }
 
     //get die rolls
-    public int getM_die(int index) {
+    public int getM_dies(int index) {
         return m_dies.get(index);
     }
 
@@ -57,7 +57,7 @@ public class PlayerThrow {
             }
             System.out.println("PlayerThrow.isPair(): " + m_dies.get(i-1) + " and " + m_dies.get(i) + " is NOT a pair");
         }
-        return false;
         //System.out.println("pære?");
+        return false;
     }
 }
