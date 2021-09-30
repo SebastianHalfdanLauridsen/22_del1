@@ -11,7 +11,7 @@ public class PlayerThrow {
 
     //class constructor defines variables/parameters and rolls dice
     public PlayerThrow(int playerID) {
-        System.out.println("Instantiated PlayerThrow(" + playerID + ")");
+        System.out.println("PlayerThrow.PlayerThrow(): Instantiated PlayerThrow(" + playerID + ")");
         m_playerID = playerID;
         roll();
     }
@@ -52,10 +52,10 @@ public class PlayerThrow {
         for (int i = 1; i < m_dies.size(); i++) {
 
             if (m_dies.get(0).equals( m_dies.get(i) ) ) {
-                System.out.println(m_dies.get(i) + " is a pair");
+                System.out.println("Playerthrow.isPair(): " + m_dies.get(i) + " is a pair");
                 return true;
             }
-            System.out.println(m_dies.get(i-1) + " and " + m_dies.get(i) + " is NOT a pair");
+            System.out.println("PlayerThrow.isPair(): " + m_dies.get(i-1) + " and " + m_dies.get(i) + " is NOT a pair");
         }
         return false;
         //System.out.println("pære?");

@@ -13,58 +13,96 @@ public class Round {
     private ArrayList<Integer> m_pairs = new ArrayList<>();
     private ArrayList<Boolean> m_isPairs = new ArrayList<>();
 
+    private  ArrayList<Integer> m_points = new ArrayList<>(Game.getM_playerAmount()); //make method for accessing this
+
+    private int prevPlayerID = 0;
+    private boolean skip = false;
+    private int playerID = 0;
+
     public Round(int playerAmount) {
-        System.out.println("Instantiated Round(" + playerAmount + ")");
-        for (int i = 0; i < playerAmount; i++) {
-            throwDice(i);
+        System.out.println("Round.Round(): Instantiated Round(" + playerAmount + ")");
+
+        while (m_points.size() < Game.getM_playerAmount()) {
+            m_points.add(0);
+        }
+
+        for (int playerID = 0; playerID < playerAmount; playerID++) {
+
+            throwDice(playerID);
+            //Sets m_points array to old val + new sum
+            m_points.set(playerID, (m_points.get(playerID) + getM_sum(playerID)));
+
+            //reset points if 2x1
+            if(pairOfOnes(playerID)) {
+                resetPoints(playerID);
+            }
+
+
+            System.out.println("Round.Round(): Player " + (playerID) + " has " + m_points.get(playerID) + " points");
             System.out.println();
 
-
-            //System.out.println(m_players);
-
+            if (isWin(playerID)) {
+                System.out.println("Round.Round(): WINWINWIN for Player: " + (playerID));
+                System.exit(0);
+            }
         }
     }
 
-    public void throwDice(int playerID) {
+        public void throwDice (int playerID){
 
-        System.out.println("t for player: " + (playerID + 1) + " to throw");
+            System.out.println("Round.throwDice(): Press t for player: " + playerID + " to throw");
 
-        String input = scan.nextLine();
+            String input = scan.nextLine();
 
-        if (input.equals("t")) {
-            PlayerThrow playerThrow = new PlayerThrow(playerID);
-            m_round.add(playerThrow);
+            if (input.equals("t")) {
+                PlayerThrow playerThrow = new PlayerThrow(playerID);
+                m_round.add(playerThrow);
 
-            for (int i = 0; i < Game.m_game.getM_diceAmount(); i++) {
-                //Prints both throws, (maybe move?) maybe make own function? unless???
-                System.out.println("Player: " + (playerID + 1)
-                        + " throw #" + (i + 1)
-                        + " = " + playerThrow.getM_die(i));
-            }
+                for (int i = 0; i < Game.m_game.getM_diceAmount(); i++) { //maybe rename int i
+                    //Prints both throws, (maybe move?) maybe make own function? unless???
+                    System.out.println("Round.throwDice(): Player: " + playerID
+                            + " throw #" + (i + 1)
+                            + " = " + playerThrow.getM_die(i));
+                }
 
-            if (playerThrow.isPair()) {
-                m_pairs.add(playerThrow.getM_die(0));
-                m_isPairs.add(true);
-            } else {
-                m_pairs.add(0);
-                m_isPairs.add(false);
-            }
+                if (playerThrow.isPair()) {
+                    m_pairs.add(playerThrow.getM_die(0));
+                    m_isPairs.add(true);
+                } else {
+                    m_pairs.add(0);
+                    m_isPairs.add(false);
+                }
 
                 m_sums.add(playerThrow.getM_sum());
             }
         }
 
-        public int getM_sum ( int playerID){
-            //returns arraylist of all sums to specified playerID
-            return m_sums.get(playerID);
-        }
-
-        public int getPair (int playerID){
-            return m_pairs.get(playerID);
-        }
-
-        public boolean isPair(int playerID) {
-            return m_isPairs.get(playerID);
-        }
-
+    public boolean isWin(int playerID) { //add if 2x6 in a row
+        return m_points.get(playerID) >= Game.getM_winCond();
     }
+
+    public boolean pairOfOnes(int playerID) {
+        return getPair(playerID) == 1;
+    }
+
+    public void resetPoints(int playerID) {
+        m_points.set(playerID, 0); //fix dis
+    }
+
+    public int getM_sum (int playerID){
+        //returns arraylist of all sums to specified playerID
+        return m_sums.get(playerID);
+    }
+
+    public int getPair (int playerID){
+        return m_pairs.get(playerID);
+    }
+
+    public boolean isPair (int playerID){
+        return m_isPairs.get(playerID);
+    }
+
+    public int getM_points(int index) {
+        return m_points.get(index);
+    }
+}
