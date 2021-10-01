@@ -3,6 +3,7 @@ package main;
 import game.Game;
 import game.Round;
 import test.Test;
+import game.PlayerThrow;
 
 import java.util.ArrayList;
 
@@ -29,8 +30,8 @@ public class Main {
                 break;
             case 2: //runs the game and counts the amounts of sums
                 test = new Test();
-                game = new Game(40);
-                game.play(Integer.MAX_VALUE);
+                game = new Game(Integer.MAX_VALUE);
+                game.play(1000);
                 System.out.println();
                 System.out.println("----------------------------");
                 System.out.println("Sums:");
@@ -61,19 +62,27 @@ public class Main {
                 break;
             case 3: //runs the game counts the amount of pairs
                 test = new Test();
-                game = new Game(40);
-                game.play(Integer.MAX_VALUE);
+                game = new Game(Integer.MAX_VALUE);
+                game.play(1000);
                 System.out.println();
                 System.out.println("----------------------------");
                 System.out.println("Pairs:");
 
                 //holds all throws (true if pair, false if not)
                 ArrayList<Boolean> pairs = new ArrayList<>();
+                ArrayList<Integer> pairAmounts = new ArrayList<>();
+                //FIlls array
+                for(int i = 0; i <= 6; i++){
+                    pairAmounts.add(0);
+                }
                 for(int rounds = 0; rounds < Round.getM_instances(); rounds++) {
                     for (int players = 0; players < Main.getM_playerAmount(); players++) {
                             //adds all throws, true if pair
                             pairs.add(game.getM_rounds(rounds).getM_round(players).isPair());
-
+                            if(game.getM_rounds(rounds).getM_round(players).isPair()){
+                                int count = pairAmounts.get(game.getM_rounds(rounds).getM_round(players).getM_dies(0)) + 1;
+                                pairAmounts.set(game.getM_rounds(rounds).getM_round(players).getM_dies(0), count);
+                            }
                     }
                 }
                 //removes all false values from pairs
@@ -82,6 +91,9 @@ public class Main {
                 }
                 pairs.trimToSize();
                 System.out.println(pairs.size());
+                for (int i = 1; i <=6 ;i++){
+                    System.out.println("Pairs of " + i + " = " + pairAmounts.get(i));
+                }
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + Integer.parseInt(args[0]));
