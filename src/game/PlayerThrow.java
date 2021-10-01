@@ -2,14 +2,15 @@ package game;
 
 import java.lang.Math;
 import java.util.ArrayList;
-
+import main.Main;
 
 public class PlayerThrow {
-    private ArrayList<Integer> m_dies = new ArrayList<>();
+    //holds all die roll values
+    private final ArrayList<Integer> m_dies = new ArrayList<>();
     private int m_sum;
 
     //class constructor defines variables/parameters and rolls dice
-    public PlayerThrow(int playerID) {
+    public PlayerThrow() {
         roll();
     }
 
@@ -22,8 +23,8 @@ public class PlayerThrow {
     //https://www.youtube.com/watch?v=RYnFIRc0k6E
     private void roll() {
         //get die rolls with random and add to ArrayList
-        for(int i = 0; i < Game.m_game.getM_diceAmount(); i++) {
-            m_dies.add(random((Game.m_game.getM_diceSides() + 1) - Game.m_game.getM_diceSides(), Game.m_game.getM_diceSides()));
+        for(int i = 0; i < Main.getM_diceAmount(); i++) {
+            m_dies.add(random((Main.getM_diceSides() + 1) - Main.getM_diceSides(), Main.getM_diceSides()));
         }
         //add die rolls to m_sum
         for (int i = 0; i < m_dies.size(); i++) {

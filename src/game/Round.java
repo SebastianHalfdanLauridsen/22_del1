@@ -2,17 +2,17 @@ package game;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-
-import static game.Game.m_game;
+import test.Test;
+import main.Main;
 
 public class Round {
 
     Scanner scan = new Scanner(System.in);
 
     //holds all Player instances for this round
-    private ArrayList<PlayerThrow> m_round = new ArrayList<>(); //need method for this
-
-    private ArrayList<Integer> m_points = new ArrayList<>(Game.getM_playerAmount()); //make method for accessing this
+    private final ArrayList<PlayerThrow> m_round = new ArrayList<>(); //need method for this
+    //holds all point instances for all players this round
+    private final ArrayList<Integer> m_points = new ArrayList<>(Main.getM_playerAmount()); //make method for accessing this
     private static int m_instances = 0;
 
     public Round(int playerAmount) {
@@ -25,20 +25,20 @@ public class Round {
             throwDies(playerID);
 
             //Sets m_points array to old val + new sum unless it is the first round
-            if(m_instances == 1) {
+            if (m_instances == 1) {
                 m_points.add(playerID, getM_round(playerID).getM_sum());
             } else {
-                m_points.add(playerID, ( m_game.getM_rounds(m_instances-2).getM_points(playerID) + getM_round(playerID).getM_sum()));
+                m_points.add(playerID, (Main.getGame().getM_rounds(m_instances - 2).getM_points(playerID) + getM_round(playerID).getM_sum()));
             }
 
-            //Runs if playerID won
+            //Runs if player won
             if (isWin(playerID)) {
                 System.out.println("Round.Round(): WINWINWIN for Player: " + (playerID));
                 System.exit(0);
             }
 
-            //reset points for playerID if pair of 1's
-            if(pairOfOnes(getM_round(playerID))) {
+            //reset points for player if pair of 1's
+            if (pairOfOnes(getM_round(playerID))) {
                 resetPoints(playerID);
             }
 
@@ -46,31 +46,39 @@ public class Round {
             System.out.println();
         }
     }
-        //throws dies for specified playerID
-        private void throwDies(int playerID) {
+
+    //throws dies for specified player
+    private void throwDies(int playerID) {
+        if (!(playerID == -1)) {
             System.out.println("----------------------------");
-            System.out.println("Player " + (playerID+1) + ", type t to throw...");
-            String input = scan.nextLine();
+            System.out.println("Player " + (playerID + 1) + ", type t to throw...");
+        }
+        String input = "";
+        if (!Test.isTestMode()) {
+            input = scan.nextLine();
+        }
+        //runs while loop until input is t
 
-            //runs while loop until input is t
-            while(!input.equals("t")){
-                System.out.println("You typed " + input + ", please type t...");
-                input = scan.nextLine();
-            }
-
-            //throws dies for player
-            PlayerThrow playerThrow = new PlayerThrow(playerID);
-            m_round.add(playerThrow);
-
-            //prints all throws from player
-            for (int i = 0; i < m_game.getM_diceAmount(); i++) { //maybe rename int i
-                System.out.println("Die " + (i+1) + " landed on " + m_round.get(playerID).getM_dies(i) + ".");
-            }
-
+        while (!input.equals("t") && !Test.isTestMode()) {
+            System.out.println("You typed " + input + ", please type t...");
+            input = scan.nextLine();
         }
 
+        //throws dies for player
+        PlayerThrow playerThrow = new PlayerThrow();
+        m_round.add(playerThrow);
+
+        //prints all throws from player
+        if (!(playerID == -1)) {
+            for (int i = 0; i < Main.getM_diceAmount(); i++) { //maybe rename int i
+                System.out.println("Die " + (i + 1) + " landed on " + m_round.get(playerID).getM_dies(i) + ".");
+            }
+        }
+
+    }
+
     public boolean isWin(int playerID) { //add if 2x6 in a row
-        return m_points.get(playerID) >= Game.getM_winCond();
+        return m_points.get(playerID) >= Main.game.getM_winCond();
     }
 
     //returns true if there is a pair of 1's
@@ -95,5 +103,10 @@ public class Round {
 
     public PlayerThrow getM_round(int index) {
         return m_round.get(index);
+    }
+
+    //returns all instances of Round
+    public static int getM_instances() {
+        return m_instances;
     }
 }
