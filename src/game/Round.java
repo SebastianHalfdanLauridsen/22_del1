@@ -33,8 +33,21 @@ public class Round {
 
             //Runs if player won
             if (isWin(playerID)) {
-                System.out.println("Round.Round(): WINWINWIN for Player: " + (playerID));
-                System.exit(0);
+                System.out.println();
+                System.out.println("WINWINWIN for Player " + (playerID + 1) + "!");
+                System.out.println("You won with " + getM_points(playerID) + " points!!!");
+
+                System.out.println();
+                System.out.println("Thanks for playing.");
+
+                //Dummy throws for the remaining players
+                for (int i = (playerID + 1); i < Main.getM_playerAmount(); i++) {
+                    PlayerThrow playerThrow = new PlayerThrow(true);
+                    m_round.add(playerThrow);
+                }
+
+                Main.game.setM_win(true);
+                return;
             }
 
             //reset points for player if pair of 1's
@@ -42,7 +55,7 @@ public class Round {
                 resetPoints(playerID);
             }
 
-            System.out.println("Round.Round(): Player " + (playerID) + " has " + m_points.get(playerID) + " points");
+            System.out.println("You now have " + m_points.get(playerID) + " points!");
             System.out.println();
         }
     }
@@ -77,6 +90,7 @@ public class Round {
 
     }
 
+    //Check if player has won the game
     public boolean isWin(int playerID) { //add if 2x6 in a row
         return m_points.get(playerID) >= Main.game.getM_winCond();
     }
@@ -86,14 +100,10 @@ public class Round {
         return playerThrow.isPair() && playerThrow.getM_dies(0) == 1;
     }
 
+    //resets points for player
     public void resetPoints(int playerID) {
         m_points.set(playerID, 0);
         System.out.println("Oh no, you lost all your points!");
-    }
-
-    public int getM_sum (int playerID){
-        //returns arraylist of all sums to specified playerID
-        return m_throwSums.get(playerID);
     }
 
     //returns amount of points from specified player
@@ -101,8 +111,9 @@ public class Round {
         return m_points.get(playerID);
     }
 
-    public PlayerThrow getM_round(int index) {
-        return m_round.get(index);
+    //returns specified playerThrow
+    public PlayerThrow getM_round(int playerID) {
+        return m_round.get(playerID);
     }
 
     //returns all instances of Round

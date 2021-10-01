@@ -14,6 +14,11 @@ public class PlayerThrow {
         roll();
     }
 
+    //dummy throw class constructor and dummy rolls
+    public PlayerThrow(boolean dummyThrow){
+        dummyRoll();
+    }
+
     //returns random int between min and max parameters
     private int random(int min, int max) {
         return (int) ((Math.random() * max) + min);
@@ -27,6 +32,16 @@ public class PlayerThrow {
             m_dies.add(random((Main.getM_diceSides() + 1) - Main.getM_diceSides(), Main.getM_diceSides()));
         }
         //add die rolls to m_sum
+        for (int i = 0; i < m_dies.size(); i++) {
+            m_sum += m_dies.get(i);
+        }
+    }
+
+    //Pretends to throw dice, Adds 0 instead of rolling an actual dice
+    private void dummyRoll(){
+        for(int i = 0; i < Main.getM_diceAmount(); i++) {
+            m_dies.add(0);
+        }
         for (int i = 0; i < m_dies.size(); i++) {
             m_sum += m_dies.get(i);
         }
